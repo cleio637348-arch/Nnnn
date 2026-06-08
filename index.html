@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>논단군 코코포 로그 백업기 (수정본)</title>
+    <title>논단군 코코포 로그 백업기</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@400;700&family=Hina+Mincho&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
@@ -114,6 +114,12 @@
             text-transform: uppercase; font-family: var(--font-ui);
         }
 
+        .section-icon {
+            width: 20px; height: 20px; border-radius: 0px;
+            background: var(--accent-soft); display: flex; align-items: center; justify-content: center;
+            font-size: 11px; flex-shrink: 0;
+        }
+
         .output-room-title {
             font-family: var(--current-font); font-size: 1.25rem; font-weight: 700;
             color: var(--title-color) !important; background-color: var(--title-bg) !important;
@@ -146,7 +152,11 @@
             transition: border-color 0.18s ease;
             font-family: var(--font-sans);
         }
-        input[type="text"]:focus, input[type="search"]:focus { border-color: var(--border-active); }
+        input[type="text"]:focus, input[type="search"]:focus {
+            border-color: var(--border-active);
+        }
+        input[type="file"] { cursor: pointer; }
+        input::placeholder { color: var(--text-muted); }
 
         .switch-group {
             display: flex; gap: 6px; background: var(--bg-input); padding: 5px 6px;
@@ -175,6 +185,7 @@
         .filter-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; margin-top: 4px; }
         .filter-item { display: flex; align-items: center; gap: 7px; font-size: 0.84rem; cursor: pointer; color: var(--text-main); padding: 5px 8px; border-radius: 0px; border: 1px solid var(--border-notion); background: var(--bg-input); transition: border-color 0.15s; }
         .filter-item:hover { border-color: var(--border-active); }
+        .filter-item input { cursor: pointer; accent-color: #ffffff; }
 
         .btn-group { display: flex; gap: 8px; width: 100%; flex-wrap: wrap; }
         .notion-btn {
@@ -185,8 +196,75 @@
             white-space: nowrap;
         }
         .notion-btn:hover { border-color: var(--border-active); background: rgba(255,255,255,0.05); }
-        .btn-submit { background: var(--accent-soft); border-color: rgba(255,255,255,0.2); color: #ffffff; flex: 2; min-width: 100px; }
+        .btn-submit {
+            background: var(--accent-soft); border-color: rgba(255,255,255,0.2);
+            color: #ffffff; flex: 2; min-width: 100px;
+        }
+        .btn-submit:hover { background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.4); }
         .btn-util { flex: 1; min-width: 80px; }
+
+        .spell-report-card {
+            background: var(--bg-card); border: 1px solid rgba(255,255,255,0.2);
+            border-radius: var(--radius-lg); padding: 18px 20px; display: none;
+        }
+        .spell-report-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 14px; border-bottom: 1px solid rgba(255, 255, 255, 0.06); padding-bottom: 10px; gap: 12px; flex-wrap: wrap;
+        }
+        .spell-report-meta { display: flex; flex-direction: column; gap: 2px; }
+        .spell-report-title { font-size: 0.88rem; font-weight: 700; color: var(--text-main); }
+        .spell-report-sub { font-size: 0.75rem; color: var(--text-muted); font-family: var(--font-ui); }
+        .spell-report-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+        .spell-btn-all {
+            background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3);
+            color: #ffffff; border-radius: var(--radius-sm);
+            padding: 6px 14px; font-size: 0.78rem; font-weight: 600; cursor: pointer;
+            transition: background 0.15s; font-family: var(--font-ui);
+        }
+        .spell-btn-all:hover { background: rgba(255,255,255,0.2); }
+        .spell-btn-dismiss {
+            background: none; border: 1px solid var(--border-notion);
+            color: var(--text-muted); border-radius: var(--radius-sm);
+            padding: 6px 12px; font-size: 0.78rem; font-weight: 600; cursor: pointer;
+            transition: background 0.15s; font-family: var(--font-ui);
+        }
+        .spell-btn-dismiss:hover { background: rgba(255,255,255,0.05); }
+        .spell-summary-bar {
+            display: flex; gap: 10px; margin-bottom: 12px; flex-wrap: wrap;
+        }
+        .spell-summary-chip {
+            display: inline-flex; align-items: center; gap: 5px;
+            background: var(--bg-input); border: 1px solid var(--border-notion);
+            border-radius: 0px; padding: 3px 10px; font-size: 0.74rem;
+            color: var(--text-label); font-family: var(--font-ui);
+        }
+        .spell-summary-chip .chip-count {
+            font-weight: 700; color: #ffffff;
+        }
+        
+        .spell-report-list { max-height: 320px; overflow-y: auto; font-size: 0.82rem; display: flex; flex-direction: column; gap: 7px; }
+        .spell-report-item {
+            display: flex; align-items: flex-start; justify-content: space-between;
+            padding: 11px 14px; background: var(--bg-input);
+            border-radius: var(--radius-sm); border: 1px solid var(--border-notion); gap: 14px; cursor: pointer;
+            transition: border-color 0.15s, background 0.15s;
+        }
+        .spell-report-item:hover { border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.03); }
+        .spell-report-item.is-fixed { opacity: 0.35; pointer-events: none; }
+        .spell-context-box { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+        .spell-meta-tag {
+            font-size: 0.72rem; color: var(--text-muted); font-family: var(--font-ui);
+            font-weight: 600; letter-spacing: 0.03em;
+        }
+        .spell-context-text { line-height: 1.55; color: var(--text-main); }
+        .spell-context-text s { color: #888888; text-decoration: line-through; opacity: 0.8; }
+        .spell-fix-trigger {
+            background: var(--accent-soft); border: 1px solid rgba(255,255,255,0.2);
+            color: #ffffff; border-radius: var(--radius-sm);
+            padding: 5px 12px; font-size: 0.76rem; font-weight: 600; cursor: pointer;
+            transition: background 0.15s; font-family: var(--font-ui); flex-shrink: 0; white-space: nowrap;
+        }
+        .spell-fix-trigger:hover { background: rgba(255,255,255,0.25); }
 
         .script-container {
             display: flex; flex-direction: column; gap: 1px;
@@ -204,7 +282,31 @@
         }
         .notion-row.filtered-out { display: none !important; }
         .notion-row:hover { background: rgba(255, 255, 255, 0.04); }
+        .notion-row.row-flash { background-color: rgba(255,255,255,0.15) !important; }
         
+        .notion-row.bg-custom-light .notion-block { color: #1a1a1a !important; }
+        .notion-row.bg-custom-light .char-name-wrapper { filter: brightness(0.15) contrast(1.2); }
+        .notion-row.bg-custom-light .state-narrator { color: #1a1a1a !important; }
+
+        .notion-row.bg-custom-dark .notion-block { color: #e3e3e3 !important; }
+        .notion-row.bg-custom-dark .char-name-wrapper { filter: brightness(1.2); }
+        .notion-row.bg-custom-dark .state-narrator { color: #e3e3e3 !important; }
+
+        .bg-color-btn {
+            position: absolute; left: 6px; bottom: 4px;
+            width: 14px; height: 14px; border-radius: 0px;
+            border: 1px solid rgba(255,255,255,0.3); cursor: pointer;
+            padding: 0; background: transparent; flex-shrink: 0;
+            opacity: 0; transition: opacity 0.15s; z-index: 6;
+        }
+        .notion-row.bg-custom-light .bg-color-btn,
+        .notion-row.bg-custom-dark .bg-color-btn { opacity: 0.5; }
+        .notion-row:hover .bg-color-btn { opacity: 1 !important; }
+        .bg-color-btn input[type="color"] {
+            position: absolute; inset: 0; width: 100%; height: 100%;
+            opacity: 0; cursor: pointer; border: none; padding: 0;
+        }
+
         .content-cell { display: flex; align-items: flex-start; gap: 6px; flex: 1; width: 100%; overflow: hidden; }
         .avatar-box { width: 28px; height: 28px; border-radius: 0px; object-fit: cover; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.1); background: #333; }
         .avatar-placeholder { width: 28px; flex-shrink: 0; }
@@ -218,6 +320,8 @@
             font-family: var(--current-font); min-width: 0;
         }
 
+        .notion-block button.del, .notion-block .row-control, .notion-block .del { display: none !important; }
+
         .control-cell { opacity: 0; transition: opacity 0.15s ease; flex-shrink: 0; position: absolute; right: 8px; top: 6px; z-index: 5; }
         .notion-row:hover .control-cell { opacity: 1; }
         .row-control { 
@@ -225,6 +329,29 @@
             color: #ffffff; cursor: pointer; font-size: 0.75rem; font-weight: bold; 
             padding: 2px 7px; border-radius: 0px; transition: 0.15s;
         }
+        .row-control:hover { background: #ffffff; color: #000000; border-color: #ffffff; }
+
+        mark.log-match { background: #e2e8f0; color: #000; border-radius: 0px; padding: 0 2px; }
+        .notion-block b, .msg b { font-weight: bold; }
+        .notion-block i, .msg i { font-style: italic; }
+        .notion-block s, .msg s { text-decoration: line-through; }
+        
+        .notion-block mark.hl-yellow, mark.hl-yellow { background-color: #e0e0e0 !important; color: #232323 !important; padding: 0 2px; border-radius: 0px; }
+        .notion-block mark.hl-green, mark.hl-green { background-color: #c0c0c0 !important; color: #232323 !important; padding: 0 2px; border-radius: 0px; }
+        .notion-block mark.hl-blue, mark.hl-blue { background-color: #a0a0a0 !important; color: #232323 !important; padding: 0 2px; border-radius: 0px; }
+        .notion-block mark.hl-pink, mark.hl-pink { background-color: #808080 !important; color: #e3e3e3 !important; padding: 0 2px; border-radius: 0px; }
+
+        #textStyler {
+            position: absolute; display: none;
+            background: #222222; border: 1px solid rgba(255,255,255,0.15);
+            border-radius: var(--radius-sm); box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+            z-index: 9999; padding: 5px 8px; gap: 4px; align-items: center;
+        }
+        #textStyler button { background: none; border: none; color: #fff; font-size: 0.82rem; padding: 3px 7px; cursor: pointer; border-radius: 0px; font-weight: 600; transition: background 0.1s; }
+        #textStyler button:hover { background: rgba(255,255,255,0.1); }
+        .styler-divider { width: 1px; height: 14px; background: rgba(255,255,255,0.12); }
+        .color-chip { width: 15px; height: 15px; border-radius: 0px; cursor: pointer; display: inline-block; border: 1px solid rgba(255, 255, 255, 0.3); transition: transform 0.1s; }
+        .color-chip:hover { transform: scale(1.15); }
 
         .floating-history-panel {
             position: fixed; bottom: 20px; right: 20px;
@@ -233,10 +360,19 @@
             padding: 5px 10px; display: flex; gap: 2px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5); z-index: 10000;
         }
         .history-btn { background: none; border: none; color: rgba(255, 255, 255, 0.8); font-size: 0.83rem; font-weight: 600; padding: 7px 12px; cursor: pointer; border-radius: 0px; transition: background 0.15s; font-family: var(--font-ui); }
+        .history-btn:hover:not(:disabled) { background: rgba(255,255,255,0.08); }
+        .history-btn:disabled { opacity: 0.25; cursor: not-allowed; }
+        .btn-scroll-top { border-left: 1px solid rgba(255,255,255,0.15); margin-left: 2px; padding-left: 14px; }
         
-        .state-narrator { text-align: center; font-weight: 700; font-style: italic; color: var(--script-narrator) !important; width: 100%; margin: 2px 0; padding: 2px 10px; font-size: 0.89rem; }
+        .state-narrator { text-align: center; font-weight: 700; font-style: italic; color: var(--script-narrator) !important; width: 100%; margin: 2px 0; padding: 2px 10px; font-size: 0.89rem; transition: color 0.3s ease; }
         .state-system { font-family: var(--font-ui); font-size: 0.82rem; color: var(--script-sys) !important; text-align: center !important; width: 100% !important; font-style: normal !important; display: block; padding: 6px 0; margin: 0 auto; }
+        
         .character-divider { border-top: 1px solid rgba(255, 255, 255, 0.05); margin: 4px 0 2px 0; width: 100%; }
+
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 0px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.25); }
     </style>
 </head>
 <body>
@@ -278,14 +414,23 @@
                     </div>
                 </div>
             </div>
+            <div class="grid-config">
+                <div class="input-group" style="grid-column: span 2;">
+                    <span class="input-label">5. 맞춤법 교정</span>
+                    <div class="switch-group">
+                        <label class="switch-item"><input type="radio" name="spellCheckToggle" value="off" checked> 끄기</label>
+                        <label class="switch-item"><input type="radio" name="spellCheckToggle" value="on"> 켜기</label>
+                    </div>
+                </div>
+            </div>
             <div class="input-group" style="margin-top: 10px;">
-                <span class="input-label">5. 캐릭터별 개별 색상 지정 (로그 색상 자동 추출)</span>
+                <span class="input-label">6. 캐릭터별 개별 색상 지정 (로그 색상 자동 추출)</span>
                 <div id="characterColorPanel" class="color-picker-panel">
                     <span style="color: var(--text-muted); font-size: 0.83rem;">파일을 업로드하면 고유 색상이 자동으로 추출됩니다.</span>
                 </div>
             </div>
             <div class="input-group" style="margin-top: 10px;">
-                <span class="input-label">6. 탭 필터링</span>
+                <span class="input-label">7. 탭 필터링</span>
                 <div id="dynamicFilters" class="filter-container"></div>
             </div>
             <div class="input-group" style="margin-top: 14px;">
@@ -300,10 +445,38 @@
             <button id="btnDownload" class="notion-btn btn-util">파일 저장</button>
         </div>
 
+        <div id="spellReportCard" class="spell-report-card">
+            <div class="spell-report-header">
+                <div class="spell-report-meta">
+                    <div class="spell-report-title">맞춤법 교정 리포트</div>
+                    <div class="spell-report-sub">TRPG 세션 특화 고정밀 엔진</div>
+                </div>
+                <div class="spell-report-actions">
+                    <button id="btnSpellFixAll" class="spell-btn-all">모두 교정</button>
+                    <button id="btnSpellDismiss" class="spell-btn-dismiss">닫기</button>
+                </div>
+            </div>
+            <div class="spell-summary-bar" id="spellSummaryBar"></div>
+            <div id="spellReportList" class="spell-report-list"></div>
+        </div>
+
         <div id="dynamicTabsOutput"></div>
     </div>
 
+    <div id="textStyler">
+        <button data-cmd="bold"><b>B</b></button>
+        <button data-cmd="italic"><i>I</i></button>
+        <button data-cmd="strikeThrough"><s>S</s></button>
+        <div class="styler-divider"></div>
+        <span class="color-chip chip-yellow" style="background:#e0e0e0" data-cmd="hl-yellow"></span>
+        <span class="color-chip chip-green" style="background:#c0c0c0" data-cmd="hl-green"></span>
+        <span class="color-chip chip-blue" style="background:#a0a0a0" data-cmd="hl-blue"></span>
+        <span class="color-chip chip-pink" style="background:#808080" data-cmd="hl-pink"></span>
+    </div>
+
     <div class="floating-history-panel">
+        <button id="btnUndo" class="history-btn" disabled>뒤로</button>
+        <button id="btnRedo" class="history-btn" disabled>앞으로</button>
         <button id="btnScrollTop" class="history-btn btn-scroll-top">↑ Top</button>
     </div>
 
@@ -313,7 +486,69 @@
         let characterColorMap = {}; 
         let currentFontType = "sans"; 
         let currentColorTheme = "ccfolia"; 
+        let undoStack = [];
+        let redoStack = [];
+        let isHistoryAction = false; 
         let globalRoomTitle = "세션 로그";
+
+        const spellRules = [
+            { wrong: /됬됐다/g, right: "됐다", cat: "맞춤법" },
+            { wrong: /됬어/g, right: "됐어", cat: "맞춤법" },
+            { wrong: /됬/g, right: "됐", cat: "맞춤법" },
+            { wrong: /되었습니다/g, right: "됐다", cat: "맞춤법" },
+            { wrong: /되었어/g, right: "됐어", cat: "맞춤법" },
+            { wrong: /되었고/g, right: "됐고", cat: "맞춤법" },
+            { wrong: /되었니/g, right: "됐니", cat: "맞춤법" },
+            { wrong: /되었던/g, right: "됐던", cat: "맞춤법" },
+            { wrong: /됬음/g, right: "됐음", cat: "맞춤법" },
+            { wrong: /됬다/g, right: "됐다", cat: "맞춤법" },
+            { wrong: /않하고/g, right: "안 하고", cat: "맞춤법" },
+            { wrong: /않돼/g, right: "안 돼", cat: "맞춤법" },
+            { wrong: /않된다/g, right: "안 된다", cat: "맞춤법" },
+            { wrong: /않해/g, right: "안 해", cat: "맞춤법" },
+            { wrong: /않되/g, right: "안 되", cat: "맞춤법" },
+            { wrong: /않봐/g, right: "안 봐", cat: "맞춤법" },
+            { wrong: /않가/g, right: "안 가", cat: "맞춤법" },
+            { wrong: /않먹/g, right: "안 먹", cat: "맞춤법" },
+            { wrong: /않오/g, right: "안 오", cat: "맞춤법" },
+            { wrong: /않좋/g, right: "안 좋", cat: "맞춤법" },
+            { wrong: /안돼고/g, right: "안 되고", cat: "맞춤법" },
+            { wrong: /안돼서/g, right: "안 돼서", cat: "맞춤법" },
+            { wrong: /안돼면/g, right: "안 되면", cat: "맞춤법" },
+            { wrong: /안돼나요/g, right: "안 되나요", cat: "맞춤법" },
+            { wrong: /할려구/g, right: "하려구", cat: "맞춤법" },
+            { wrong: /할려고/g, right: "하려고", cat: "맞춤법" },
+            { wrong: /할래야/g, right: "하려야", cat: "맞춤법" },
+            { wrong: /갈려고/g, right: "가려고", cat: "맞춤법" },
+            { wrong: /먹을려고/g, right: "먹으려고", cat: "맞춤법" },
+            { wrong: /잡을려고/g, right: "잡으려고", cat: "맞춤법" },
+            { wrong: /볼려고/g, right: "보려고", cat: "맞춤법" },
+            { wrong: /것 같아/g, right: "것 같아", cat: "공백" },
+            { wrong: /할 수/g, right: "할 수", cat: "공백" },
+            { wrong: /있을 것/g, right: "있을 것", cat: "공백" },
+            { wrong: /안좋아/g, right: "안 좋아", cat: "띄어쓰기" },
+            { wrong: /어의없/g, right: "어처구니없", cat: "맞춤법" },
+            { wrong: /바램/g, right: "바람", cat: "맞춤법" },
+            { wrong: /그라믄/g, right: "그러면", cat: "맞춤법" },
+            { wrong: /뒤짚/g, right: "뒤집", cat: "맞춤법" },
+            { wrong: /잇나요/g, right: "있나요", cat: "맞춤법" },
+            { wrong: /금새/g, right: "금세", cat: "맞춤법" },
+            { wrong: /팅기/g, right: "튕기", cat: "맞춤법" },
+            { wrong: /어떻해/g, right: "어떡해", cat: "맞춤법" },
+            { wrong: /어떻게해/g, right: "어떻게 해", cat: "맞춤법" },
+            { wrong: /구지/g, right: "굳이", cat: "맞춤법" },
+            { wrong: /마추다/g, right: "맞추다", cat: "맞춤법" },
+            { wrong: /마춰/g, right: "맞춰", cat: "맞춤법" },
+            { wrong: /문난/g, right: "무난", cat: "맞춤법" },
+            { wrong: /역활/g, right: "역할", cat: "맞춤법" },
+            { wrong: /괞찮/g, right: "괜찮", cat: "맞춤법" },
+            { wrong: /오랫만/g, right: "오랜만", cat: "맞춤법" },
+            { wrong: /몇일/g, right: "며칠", cat: "맞춤법" },
+            { wrong: /몆일/g, right: "며칠", cat: "맞춤법" },
+            { wrong: /왠지모르/g, right: "왠지 모르", cat: "맞춤법" },
+            { wrong: /頑지/g, right: "왠지", cat: "맞춤법" },
+            { wrong: /\.\.\./g, right: "...", cat: "" }
+        ].filter(r => r.cat !== "");
 
         const themeProfiles = {
             roll20: {
@@ -347,6 +582,31 @@
                 root.style.setProperty('--title-bg', '#222222');
                 root.style.setProperty('--title-border', 'rgba(255,255,255,0.15)');
             }
+            document.querySelectorAll('.notion-row').forEach(row => {
+                if (row.dataset.custombg) {
+                    const currentMode = themeKey === 'roll20' ? 'dark' : 'light';
+                    row.dataset.custombg = currentMode;
+                    row.classList.remove('bg-custom-light', 'bg-custom-dark');
+                    row.classList.add(currentMode === 'light' ? 'bg-custom-light' : 'bg-custom-dark');
+                    applyRowCustomBg(row);
+                }
+            });
+        }
+
+        function applyRowCustomBg(row) {
+            const isLight = row.classList.contains('bg-custom-light');
+            const baseColor = row.dataset.custombgColor || '#aaaaaa';
+            if (isLight) {
+                row.style.backgroundColor = '#ffffff';
+                row.style.border = `1px solid ${baseColor}`;
+            } else {
+                row.style.backgroundColor = '#1a1a1a';
+                row.style.border = `1px solid ${baseColor}`;
+            }
+            const pInput = row.querySelector('.bg-color-btn input[type="color"]');
+            if (pInput) pInput.value = baseColor;
+            const pBtn = row.querySelector('.bg-color-btn');
+            if (pBtn) pBtn.style.backgroundColor = baseColor;
         }
 
         document.querySelectorAll('input[name="colorTheme"]').forEach(radio => {
@@ -372,7 +632,9 @@
             if (!col) return null;
             col = col.trim();
             if (col.startsWith('#')) {
-                if (col.length === 4) return '#' + col[1] + col[1] + col[2] + col[2] + col[3] + col[3];
+                if (col.length === 4) {
+                    return '#' + col[1] + col[1] + col[2] + col[2] + col[3] + col[3];
+                }
                 return col.toLowerCase();
             }
             const matches = col.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)/i);
@@ -392,16 +654,15 @@
             reader.onload = function(event) {
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(event.target.result, 'text/html');
-                globalRoomTitle = file.name.replace(/\.html$/i, "").replace(/\[all\]$/i, "").replace(/_변환로그/gi, "").trim();
-                
-                let lines = doc.querySelectorAll('p, .msg, .chat-line, div.row');
+                globalRoomTitle = file.name.replace(/\.html$/i, "").replace(/\[all\]$/i, "").trim();
+                let lines = doc.querySelectorAll('p, .msg, .chat-line');
                 if(lines.length === 0) lines = doc.querySelectorAll('body > div');
-                
                 rawLogData = [];
                 detectedTabs.clear();
                 characterColorMap = {};
 
                 lines.forEach(p => {
+                    if (p.querySelector('p')) return;
                     const text = p.textContent.trim();
                     if(!text) return;
                     let avatarSrc = p.querySelector('img')?.getAttribute('src') || "";
@@ -412,42 +673,59 @@
                         const c = rgbToHex(p.style.color);
                         if (c && !IGNORE_COLORS.has(c)) extractedColor = c;
                     }
-                    
-                    const tabAttr = p.getAttribute('data-tab') || p.closest('[data-tab]')?.getAttribute('data-tab');
-                    const nameAttr = p.getAttribute('data-name') || p.closest('[data-name]')?.getAttribute('data-name') || p.querySelector('.name')?.textContent;
-                    
-                    let tName = (tabAttr || "Main").trim();
-                    let cName = (nameAttr || "").replace(/[:\s\-]+$/, "").trim();
-                    
-                    if(!cName) {
-                        const match = text.match(/^\[([^\]]+)\]\s*([^:]+)\s*:/);
-                        if(match) {
-                            tName = match[1].trim();
-                            cName = match[2].trim();
+                    if (!extractedColor) {
+                        const childSpans = p.querySelectorAll('span');
+                        for (let s of childSpans) {
+                            if (s.style && s.style.color) {
+                                const c = rgbToHex(s.style.color);
+                                if (c && !IGNORE_COLORS.has(c)) { extractedColor = c; break; }
+                            }
                         }
                     }
 
-                    if (cName && cName !== '-') {
+                    const tabAttr = p.getAttribute('data-tab') || p.closest('[data-tab]')?.getAttribute('data-tab');
+                    const nameAttr = p.getAttribute('data-name') || p.closest('[data-name]')?.getAttribute('data-name');
+                    
+                    if (tabAttr || nameAttr) {
+                        let tName = (tabAttr || "Main").trim();
+                        let cName = (nameAttr || "").trim();
                         detectedTabs.add(tName);
-                        if (!characterColorMap[cName]) characterColorMap[cName] = extractedColor || '#aaaaaa';
-                        
+                        if (cName && cName !== '-') {
+                            if (!characterColorMap[cName]) characterColorMap[cName] = extractedColor || '#aaaaaa';
+                        }
                         let mBody = p.innerHTML;
                         const blockClone = p.cloneNode(true);
-                        const nEl = blockClone.querySelector('.char-name-wrapper, .name, .name-wrap, strong');
+                        const nEl = blockClone.querySelector('.char-name-wrapper, .name, strong');
                         if(nEl) nEl.remove();
-                        mBody = blockClone.innerHTML.trim();
-                        
+                        mBody = blockClone.innerHTML.replace(/^[:\s\-]+/, "").trim();
                         rawLogData.push({ tab: tName, name: cName, message: mBody, avatar: avatarSrc });
                     } else {
-                        if(p.classList.contains('system') || p.querySelector('.system') || text.startsWith('[시스템]')) {
-                            rawLogData.push({ tab: "시스템", name: "", message: text, avatar: "" });
+                        const match = text.match(/^\[([^\]]+)\]\s*([^:]+)\s*:\s*([\s\S]*)$/);
+                        if (match) {
+                            let tName = match[1].trim();
+                            let cName = match[2].trim();
+                            let mBody = match[3].trim();
+                            detectedTabs.add(tName);
+                            if (cName && cName !== '-') {
+                                if (!characterColorMap[cName]) characterColorMap[cName] = extractedColor || '#aaaaaa';
+                            }
+                            rawLogData.push({ tab: tName, name: cName, message: mBody, avatar: avatarSrc });
                         } else {
-                            rawLogData.push({ tab: tName || "Main", name: "", message: p.innerHTML, avatar: "" });
+                            const simpleMatch = text.match(/^([^:]+)\s*:\s*([\s\S]*)$/);
+                            if(simpleMatch) {
+                                let cName = simpleMatch[1].trim();
+                                let mBody = simpleMatch[2].trim();
+                                detectedTabs.add("Main");
+                                if (cName && cName !== '-') {
+                                    if (!characterColorMap[cName]) characterColorMap[cName] = extractedColor || '#aaaaaa';
+                                }
+                                rawLogData.push({ tab: "Main", name: cName, message: mBody, avatar: avatarSrc });
+                            } else {
+                                rawLogData.push({ tab: "시스템", name: "", message: text, avatar: "" });
+                            }
                         }
                     }
                 });
-                
-                if(detectedTabs.size === 0) detectedTabs.add("Main");
                 buildFilters();
                 buildCharacterColorPicker();
             };
@@ -495,8 +773,45 @@
             return map;
         }
 
+        function saveHistoryState() {
+            if (isHistoryAction) return;
+            undoStack.push({ tabsHTML: document.getElementById('dynamicTabsOutput').innerHTML });
+            redoStack = [];
+            updateHistoryButtons();
+        }
+
+        function updateHistoryButtons() {
+            document.getElementById('btnUndo').disabled = (undoStack.length === 0);
+            document.getElementById('btnRedo').disabled = (redoStack.length === 0);
+        }
+
+        document.getElementById('btnUndo').addEventListener('click', () => {
+            if (undoStack.length === 0) return;
+            isHistoryAction = true;
+            redoStack.push({ tabsHTML: document.getElementById('dynamicTabsOutput').innerHTML });
+            const prev = undoStack.pop();
+            document.getElementById('dynamicTabsOutput').innerHTML = prev.tabsHTML;
+            attachAccordionEvents();
+            attachRowClickEvents();
+            updateHistoryButtons();
+            isHistoryAction = false;
+        });
+
+        document.getElementById('btnRedo').addEventListener('click', () => {
+            if (redoStack.length === 0) return;
+            isHistoryAction = true;
+            undoStack.push({ tabsHTML: document.getElementById('dynamicTabsOutput').innerHTML });
+            const next = redoStack.pop();
+            document.getElementById('dynamicTabsOutput').innerHTML = next.tabsHTML;
+            attachAccordionEvents();
+            attachRowClickEvents();
+            updateHistoryButtons();
+            isHistoryAction = false;
+        });
+
         function attachAccordionEvents() {
             document.querySelectorAll('.output-room-title').forEach(title => {
+                title.onclick = null;
                 title.onclick = function() {
                     const container = this.nextElementSibling;
                     if (container && container.classList.contains('script-container')) {
@@ -507,26 +822,82 @@
             });
         }
 
+        function addBgColorBtn(row) {
+            if (row.querySelector('.bg-color-btn')) return;
+            const btn = document.createElement('div');
+            btn.className = 'bg-color-btn';
+            btn.title = '배경색 변경';
+            const picker = document.createElement('input');
+            picker.type = 'color';
+            picker.value = row.dataset.custombgColor || '#aaaaaa';
+            btn.style.backgroundColor = picker.value;
+            picker.addEventListener('input', (e) => {
+                e.stopPropagation();
+                row.dataset.custombgColor = e.target.value;
+                applyRowCustomBg(row);
+            });
+            picker.addEventListener('click', e => e.stopPropagation());
+            picker.addEventListener('dblclick', e => e.stopPropagation());
+            btn.appendChild(picker);
+            row.appendChild(btn);
+        }
+
+        function attachRowClickEvents() {
+            document.querySelectorAll('.notion-row').forEach(row => {
+                if (row.dataset.custombg) addBgColorBtn(row);
+                row.ondblclick = null;
+                row.ondblclick = function(e) {
+                    if (e.target.closest('.row-control') || e.target.closest('.notion-block[contenteditable="true"]') || e.target.closest('.bg-color-btn')) return;
+                    if (this.querySelector('.state-system')) return;
+                    saveHistoryState();
+                    const mode = currentColorTheme === 'roll20' ? 'dark' : 'light';
+                    if (!this.dataset.custombg) {
+                        this.dataset.custombg = mode;
+                        this.dataset.custombgColor = '#aaaaaa';
+                        this.classList.add(mode === 'light' ? 'bg-custom-light' : 'bg-custom-dark');
+                        applyRowCustomBg(this);
+                        addBgColorBtn(this);
+                    } else {
+                        delete this.dataset.custombg;
+                        delete this.dataset.custombgColor;
+                        this.classList.remove('bg-custom-light', 'bg-custom-dark');
+                        this.style.backgroundColor = '';
+                        this.style.border = '';
+                        const btn = this.querySelector('.bg-color-btn');
+                        if (btn) btn.remove();
+                    }
+                };
+            });
+        }
+
         document.getElementById('btnProcess').addEventListener('click', async () => {
             if(rawLogData.length === 0) return alert('파일을 업로드하세요.');
             const btnSubmit = document.getElementById('btnProcess');
+            const originalBtnText = btnSubmit.textContent;
             btnSubmit.textContent = "처리 중...";
             btnSubmit.disabled = true;
-            
             try {
+                undoStack = []; redoStack = [];
+                updateHistoryButtons();
                 const narrator = document.getElementById('narratorName').value.trim();
                 const charColorMap = { ...characterColorMap, ...getCharacterColorMap() };
                 const selectedTabs = Array.from(document.querySelectorAll('.tab-chk:checked')).map(c => c.value);
+                selectedTabs.sort((a, b) => {
+                    if (a.toLowerCase() === 'main') return -1;
+                    if (b.toLowerCase() === 'main') return 1;
+                    return a.localeCompare(b);
+                });
 
                 const dynamicTabsOutput = document.getElementById('dynamicTabsOutput');
                 dynamicTabsOutput.innerHTML = "";
-                
                 const tabContainers = {};
-                const tabLastSpeakerName = {}; 
+                const tabLastSpeakerType = {};
+                const tabLastSpeakerName = {}; // 대사 연속성 체킹용 명단 분리
 
                 selectedTabs.forEach(t => {
                     const card = document.createElement('div');
                     card.className = "notion-card";
+                    card.id = `card_${t.replace(/[^a-zA-Z0-9]/g, "_")}`;
                     
                     const title = document.createElement('div');
                     title.className = "output-room-title";
@@ -539,6 +910,7 @@
 
                     dynamicTabsOutput.appendChild(card);
                     tabContainers[t] = container;
+                    tabLastSpeakerType[t] = null;
                     tabLastSpeakerName[t] = null;
                 });
 
@@ -547,6 +919,7 @@
                 rawLogData.forEach((log) => {
                     let currentTargetTab = log.tab;
                     if (!tabContainers[currentTargetTab]) {
+                        if (detectedTabs.has(currentTargetTab)) return;
                         currentTargetTab = selectedTabs[0];
                         if (!currentTargetTab) return;
                     }
@@ -555,14 +928,26 @@
                     const isNarr = (narrator && log.name === narrator);
                     const isSys = (!log.name && currentTargetTab === "시스템") || log.tab === "시스템";
 
-                    const lastSpeakerName = tabLastSpeakerName[currentTargetTab];
-                    const isSameSpeaker = (lastSpeakerName !== null && lastSpeakerName === log.name);
+                    let currentType = "char";
+                    if (isNarr) currentType = "narr";
+                    if (isSys) currentType = "sys";
 
-                    // 연속 대사 판단 이후에 최종 전역 기록 갱신
-                    if (!isSys && log.name) {
+                    const lastType = tabLastSpeakerType[currentTargetTab];
+                    const lastSpeakerName = tabLastSpeakerName[currentTargetTab];
+
+                    if (lastType && lastType !== currentType && !isSys && !isNarr) {
+                        const divider = document.createElement('div');
+                        divider.className = "character-divider";
+                        targetContainer.appendChild(divider);
+                    }
+
+                    // 이름까지 완전히 일치할 때만 연속 생략 조건(same = true) 성립하도록 교정
+                    const isSameSpeaker = (lastSpeakerName === log.name);
+                    const same = (lastType === currentType && !isNarr && !isSys && isSameSpeaker);
+                    
+                    if (!isSys) {
+                        tabLastSpeakerType[currentTargetTab] = currentType;
                         tabLastSpeakerName[currentTargetTab] = log.name;
-                    } else if (isSys || isNarr) {
-                        tabLastSpeakerName[currentTargetTab] = null; 
                     }
 
                     const row = document.createElement('div');
@@ -570,13 +955,16 @@
                     row.dataset.tab = currentTargetTab;
                     row.dataset.speaker = log.name;
 
-                    let cleanMessage = log.message;
+                    let cleanMessage = log.message.replace(/<button[^>]*class="[^"]*del[^"]*"[^>]*>.*?<\/button>/gi, '').replace(/<button[^>]*>del<\/button>/gi, '').replace(/class="[^"]*del[^"]*"/gi, '');
                     let inner = `<div class="content-cell">`;
 
-                    if(!isNarr && log.name) {
+                    if(!isNarr && !isSys) {
                         const assignedColor = charColorMap[log.name] || p.fallbackName;
-                        if (isSameSpeaker) {
-                            inner += `<div class="avatar-placeholder"></div><div class="char-name-wrapper" style="width:60px;min-width:60px"></div>`;
+                        if (same) {
+                            const prevRow = targetContainer.lastElementChild;
+                            const prevNameWrap = prevRow?.querySelector('.char-name-wrapper');
+                            const nameW = prevNameWrap ? prevNameWrap.offsetWidth : 0;
+                            inner += `<div class="avatar-placeholder"></div><div class="char-name-wrapper" style="width:${nameW}px;min-width:${nameW}px"></div>`;
                         } else {
                             inner += (log.avatar ? `<img src="${log.avatar}" class="avatar-box">` : `<div class="avatar-box"></div>`);
                             inner += `<div class="char-name-wrapper"><span class="char-name" style="color:${assignedColor}">${log.name} :</span></div>`;
@@ -585,7 +973,7 @@
                     } else {
                         inner += `<div class="notion-block ${isNarr?'state-narrator':'state-system'}" contenteditable="true" spellcheck="false">${isNarr ? `<b><i>${cleanMessage}</i></b>` : cleanMessage}</div>`;
                     }
-                    inner += `</div><div class="control-cell"><button class="row-control" onclick="this.closest('.notion-row').remove();">del</button></div>`;
+                    inner += `</div><div class="control-cell"><button class="row-control" onclick="saveHistoryState(); this.closest('.notion-row').remove();">del</button></div>`;
                     row.innerHTML = inner;
                     targetContainer.appendChild(row);
                 });
@@ -594,83 +982,263 @@
                 document.querySelectorAll('.output-room-title').forEach(el => el.style.fontFamily = fontValue);
                 
                 attachAccordionEvents();
+                attachRowClickEvents();
+                runAutoSpellChecker();
             } catch (error) {
                 console.error(error);
                 alert('처리 과정 중 오류가 발생했습니다.');
             } finally {
-                btnSubmit.textContent = "실행";
+                btnSubmit.textContent = originalBtnText;
                 btnSubmit.disabled = false;
             }
+        });
+
+        function runAutoSpellChecker() {
+            const isEnabled = document.querySelector('input[name="spellCheckToggle"]:checked').value === "on";
+            const reportCard = document.getElementById('spellReportCard');
+            const reportList = document.getElementById('spellReportList');
+            const summaryBar = document.getElementById('spellSummaryBar');
+            reportList.innerHTML = "";
+            summaryBar.innerHTML = "";
+            reportCard.style.display = "none";
+            if (!isEnabled) return;
+
+            const blocks = document.querySelectorAll('.notion-block');
+            let detected = [];
+            blocks.forEach((block, idx) => {
+                const tab = block.closest('.notion-row')?.dataset.tab || "로그";
+                const speaker = block.closest('.notion-row')?.dataset.speaker || "시스템";
+                if (block.closest('.notion-row')?.querySelector('.state-system')) return;
+                const txt = block.innerText;
+                spellRules.forEach(rule => {
+                    rule.wrong.lastIndex = 0;
+                    if (rule.wrong.test(txt)) {
+                        detected.push({ el: block, row: block.closest('.notion-row'), line: idx + 1, tab, speaker, rule });
+                    }
+                });
+            });
+
+            if (detected.length > 0) {
+                reportCard.style.display = "block";
+                const counts = {};
+                detected.forEach(i => counts[i.rule.cat] = (counts[i.rule.cat] || 0) + 1);
+                Object.keys(counts).forEach(cat => {
+                    const chip = document.createElement('span');
+                    chip.className = "spell-summary-chip";
+                    chip.innerHTML = `${cat}: <span class="chip-count">${counts[cat]}건</span>`;
+                    summaryBar.appendChild(chip);
+                });
+
+                detected.forEach(issue => {
+                    const item = document.createElement('div');
+                    item.className = "spell-report-item";
+                    issue.rule.wrong.lastIndex = 0;
+                    const previewText = issue.el.innerText.replace(issue.rule.wrong, (m) => `<s style="color:#888888; text-decoration:line-through;">${m}</s> <span style="color:#ffffff; font-weight:600">→ ${issue.rule.right}</span>` );
+                    issue.rule.wrong.lastIndex = 0;
+                    item.innerHTML = `
+                        <div class="spell-context-box">
+                            <span class="spell-meta-tag">${issue.line}행 · ${issue.speaker} · <span style="color:var(--text-main)">${issue.rule.cat}</span></span>
+                            <div class="spell-context-text">${previewText}</div>
+                        </div>
+                        <button class="spell-fix-trigger">교정</button>`;
+
+                    item.addEventListener('click', (e) => {
+                        if (e.target.classList.contains('spell-fix-trigger')) return;
+                        issue.row?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        issue.row?.classList.add('row-flash');
+                        setTimeout(() => issue.row?.classList.remove('row-flash'), 1000);
+                    });
+
+                    item.querySelector('.spell-fix-trigger').addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        saveHistoryState();
+                        issue.rule.wrong.lastIndex = 0;
+                        issue.el.innerHTML = issue.el.innerHTML.replace(issue.rule.wrong, issue.rule.right);
+                        issue.rule.wrong.lastIndex = 0;
+                        item.classList.add('is-fixed');
+                    });
+                    reportList.appendChild(item);
+                });
+            }
+        }
+
+        document.getElementById('btnSpellFixAll').addEventListener('click', () => {
+            const buttons = document.querySelectorAll('.spell-fix-trigger:not([disabled])');
+            const active = Array.from(buttons).filter(b => !b.closest('.is-fixed'));
+            if (active.length === 0) return;
+            saveHistoryState();
+            active.forEach(btn => btn.click());
+        });
+
+        document.getElementById('btnSpellDismiss').addEventListener('click', () => {
+            document.getElementById('spellReportCard').style.display = "none";
         });
 
         function buildFinal(mode = 'full') {
             const chosenFont = currentFontType === "serif" ? `'Hina Mincho', 'Noto Serif KR', serif` : `'Noto Sans KR', sans-serif`;
             const p = themeProfiles[currentColorTheme];
+            const charColorMap = { ...characterColorMap, ...getCharacterColorMap() };
             const bodyBg = currentColorTheme === "roll20" ? "#e9eced" : "#111111";
-            const bodyText = currentColorTheme === "roll20" ? "#232323" : "#e3e3e3";
+            const bodyText = currentColorTheme === "roll20" ? "#e3e3e3" : "#e3e3e3";
             const isRoll20 = (currentColorTheme === "roll20");
             const narrBg = isRoll20 ? "transparent" : p.bg;
             const narrBorder = isRoll20 ? "none" : `1px solid ${p.border}`;
             const narrPadding = isRoll20 ? "2px 0" : "12px 16px";
 
-            let css = `
-            *, *::before, *::after { box-sizing: border-box; }
-            html, body { margin: 0; padding: 0; width: 100%; background-color: ${bodyBg}; }
-            body { font-family: ${chosenFont}; display: flex; flex-direction: column; align-items: center; padding: 40px 16px 80px; color: ${bodyText}; min-height: 100vh; }
-            h1.title { font-family: ${chosenFont}; font-size: 1.25rem; font-weight: 700; color: ${p.text} !important; background-color: ${p.bg} !important; border: 1px solid ${p.border} !important; margin: 10px 0 14px 0; padding: 13px 16px; text-align: center; width: 100%; max-width: 900px; }
-            .box { display: flex; flex-direction: column; gap: 1px; background-color: ${bodyBg}; padding: 16px; border: 1px solid ${p.border}; width: 100%; max-width: 900px; overflow-x: hidden; margin-bottom: 30px; }
-            .row { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 6px 8px; position: relative; width: 100%; }
-            .avatar { width:28px; height:28px; object-fit:cover; flex-shrink:0; }
-            .msg { font-family:${chosenFont}; font-size:0.95rem; line-height:1.6; white-space:pre-wrap; flex:1; color:${p.text} !important; word-break:break-word; }
-            .name-wrap { width: auto; min-width: 60px; flex-shrink: 0; text-align: left; padding-right: 4px; display: block; overflow: hidden; }
-            .name { font-size:0.85rem; font-weight:700; display:block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-            .narrator { text-align:center; font-weight:700; font-style:italic; padding:${narrPadding}; color:${p.narrator} !important; width:100%; background:${narrBg} !important; border:${narrBorder}; font-size: 0.89rem; }
-            .system { color:${p.sys} !important; font-size:0.82rem; text-align:center !important; width:100% !important; display: block; padding: 6px 0; }
+            let css = "";
+            if (mode === 'embed') {
+                css = `
+                .page-wrap {
+                    box-sizing: border-box;
+                    font-family: ${chosenFont};
+                    background-color: ${bodyBg};
+                    color: ${bodyText};
+                    padding: 16px;
+                    width: 100%;
+                    -webkit-font-smoothing: antialiased;
+                    letter-spacing: -0.01em;
+                }
+                .page-wrap *, .page-wrap *::before, .page-wrap *::after { box-sizing: border-box; }
+                .page-wrap h1.title {
+                    font-family: ${chosenFont}; font-size: 1.25rem; font-weight: 700;
+                    color: ${p.text} !important; background-color: ${p.bg} !important;
+                    border: 1px solid ${p.border} !important;
+                    margin: 10px 0 14px 0; outline: none; border-radius: 0px;
+                    padding: 13px 16px; text-align: center; cursor: pointer; user-select: none;
+                }
+                .page-wrap .box { display: flex; flex-direction: column; gap: 1px; background-color: ${bodyBg}; padding: 0; width: 100%; }
+                `;
+            } else {
+                css = `
+                *, *::before, *::after { box-sizing: border-box; }
+                html, body { margin: 0; padding: 0; width: 100%; background-color: ${bodyBg}; }
+                body {
+                    font-family: ${chosenFont}; display: flex; flex-direction: column; align-items: center;
+                    padding: 40px 16px 80px; -webkit-font-smoothing: antialiased; letter-spacing: -0.01em;
+                    color: ${bodyText}; min-height: 100vh;
+                }
+                h1.title {
+                    font-family: ${chosenFont}; font-size: 1.25rem; font-weight: 700;
+                    color: ${p.text} !important; background-color: ${p.bg} !important;
+                    border: 1px solid ${p.border} !important;
+                    margin: 10px 0 14px 0; outline: none; border-radius: 0px;
+                    padding: 13px 16px; text-align: center; cursor: pointer; user-select: none;
+                    width: 100%; max-width: 900px;
+                }
+                .box { display: flex; flex-direction: column; gap: 1px; background-color: ${bodyBg}; padding: 16px; border-radius: 0px; border: 1px solid ${p.border}; width: 100%; max-width: 900px; overflow-x: hidden; margin-bottom: 30px; }
+                `;
+            }
+
+            const scope = mode === 'embed' ? '.page-wrap ' : '';
+            css += `
+            ${scope}.row { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 6px 8px; position: relative; width: 100%; background: transparent !important; border: none !important; }
+            ${scope}.row.c-custom-light { background-color: #ffffff !important; border: 1px solid #dddddd !important; }
+            ${scope}.row.c-custom-light .msg { color: #1a1a1a !important; }
+            ${scope}.row.c-custom-light .name-wrap { filter: brightness(0.15) contrast(1.2); }
+            ${scope}.row.c-custom-light .narrator { color: #1a1a1a !important; background: transparent !important; border: none !important; }
+            ${scope}.row.c-custom-dark { background-color: #1a1a1a !important; border: 1px solid #333333 !important; }
+            ${scope}.row.c-custom-dark .msg { color: #e3e3e3 !important; }
+            ${scope}.row.c-custom-dark .name-wrap { filter: brightness(1.2); }
+            ${scope}.row.c-custom-dark .narrator { color: #e3e3e3 !important; background: transparent !important; border: none !important; }
+            ${scope}.avatar { width:28px; height:28px; border-radius:0; object-fit:cover; flex-shrink:0; background:#444; }
+            ${scope}.msg { font-family:${chosenFont}; font-size:0.95rem; line-height:1.6; white-space:pre-wrap; flex:1; color:${p.text} !important; word-break:break-word; background:transparent !important; min-width: 0; }
+            ${scope}.name-wrap { width: auto; min-width: 0; max-width: 150px; flex-shrink: 0; text-align: left; padding-right: 4px; display: block; background: transparent !important; overflow: hidden; }
+            ${scope}.name { font-size:0.85rem; font-weight:700; display:block; background:transparent !important; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+            ${scope}.narrator { text-align:center; font-weight:700; font-style:italic; padding:${narrPadding}; color:${p.narrator} !important; width:100%; background:${narrBg} !important; border:${narrBorder}; font-size: 0.89rem; transition: color 0.3s; }
+            ${scope}.system { color:${p.sys} !important; font-size:0.82rem; background:transparent !important; text-align:center !important; width:100% !important; font-style:normal !important; display: block; padding: 6px 0; margin: 0 auto; }
+            ${scope}.divider { border-top:1px solid rgba(128,128,128,0.15); margin:6px 0; }
+            ${scope}mark.hl-yellow { background-color:#e0e0e0 !important; color:#232323 !important; padding:1px 3px; }
+            ${scope}mark.hl-green { background-color:#c0c0c0 !important; color:#232323 !important; padding:1px 3px; }
+            ${scope}mark.hl-blue { background-color:#a0a0a0 !important; color:#232323 !important; padding:1px 3px; }
+            ${scope}mark.hl-pink { background-color:#808080 !important; color:#e3e3e3 !important; padding:1px 3px; }
+            ${scope}.msg b { font-weight: bold; }
+            ${scope}.msg i { font-style: italic; }
+            ${scope}.msg s { text-decoration: line-through; }
             `;
 
             let out = `<style>${css}</style>\n`;
-            if (mode === 'embed') out = `<div class="page-wrap">\n<style>${css}</style>\n`;
+            if (mode === 'embed') {
+                out += `<div class="page-wrap">\n`;
+            }
+
+            const buildBoxContent = (container) => {
+                let res = "";
+                const rows = container.querySelectorAll('.notion-row');
+                
+                // 파일 내보내기 시 대사 교차 체크를 위한 변수
+                let lastSpeakerNameInFile = null;
+
+                rows.forEach((el) => {
+                    if (el.classList.contains('filtered-out')) return;
+                    const isN = el.querySelector('.state-narrator') !== null;
+                    const isS = el.querySelector('.state-system') !== null;
+                    
+                    let customBgClass = "";
+                    let rowInlineStyle = "";
+                    if (el.dataset.custombg) {
+                        customBgClass = el.dataset.custombg === 'light' ? ' c-custom-light' : ' c-custom-dark';
+                        rowInlineStyle = ` style="border:1px solid ${el.dataset.custombgColor || '#aaaaaa'} !important;"`;
+                    }
+
+                    res += `<div class="row${customBgClass}"${rowInlineStyle}>`;
+                    const block = el.querySelector('.notion-block');
+                    let cleanHTML = block ? block.innerHTML : "";
+                    
+                    if (!isN && !isS) {
+                        const speakerName = el.dataset.speaker || "";
+                        // 파일 변환 저장 시에도 이름이 같은지 엄밀하게 대조 검사 실행
+                        const isSpacer = el.querySelector('.avatar-placeholder') !== null || (lastSpeakerNameInFile === speakerName);
+                        
+                        if (!isSpacer) {
+                            const av = el.querySelector('.avatar-box');
+                            const avSrc = av ? av.getAttribute('src') : "";
+                            const nameEl = el.querySelector('.char-name');
+                            const nameStyle = nameEl ? nameEl.getAttribute('style') : "";
+                            
+                            if (avSrc) res += `<img src="${avSrc}" class="avatar">`;
+                            else res += `<div class="avatar" style="background:transparent"></div>`;
+                            
+                            res += `<div class="name-wrap"><span class="name" style="${nameStyle}">${speakerName}</span></div>`;
+                        } else {
+                            const prevRows = Array.from(el.parentElement?.children || []);
+                            const myIdx = prevRows.indexOf(el);
+                            let nameW = 0;
+                            for (let i = myIdx - 1; i >= 0; i--) {
+                                const nw = prevRows[i].querySelector('.name-wrap');
+                                if (nw) { nameW = nw.offsetWidth; break; }
+                            }
+                            res += `<div style="width:28px;flex-shrink:0"></div><div class="name-wrap" style="width:${nameW}px;min-width:${nameW}px"></div>`;
+                        }
+                        res += `<div class="msg">${cleanHTML}</div>`;
+                        lastSpeakerNameInFile = speakerName; // 발화자 갱신
+                    } else {
+                        let styledContent = cleanHTML;
+                        if(isN) {
+                            if(!styledContent.includes('<i>') && !styledContent.includes('<em>')) {
+                                styledContent = `<b><i>${styledContent}</i></b>`;
+                            }
+                        }
+                        res += `<div class="msg ${isN?'narrator':'system'}">${styledContent}</div>`;
+                        lastSpeakerNameInFile = null; // 서술/시스템 돌입 시 갱신 초기화
+                    }
+                    res += '</div>';
+                });
+                return res;
+            };
 
             const cards = document.querySelectorAll('#dynamicTabsOutput > .notion-card');
             cards.forEach((card, idx) => {
                 const titleText = card.querySelector('.output-room-title').innerText;
-                out += `<h1 class="title">${titleText}</h1>\n`;
+                out += `<h1 class="title" onclick="const box=document.getElementById('box_${idx}'); box.style.display=(box.style.display==='none'?'flex':'none');">${titleText}</h1>\n`;
                 out += `<div id="box_${idx}" class="box">\n`;
-                
-                const rows = card.querySelectorAll('.notion-row');
-                rows.forEach((el) => {
-                    const block = el.querySelector('.notion-block');
-                    if(!block) return;
-                    
-                    const isN = block.classList.contains('state-narrator');
-                    const isS = block.classList.contains('state-system');
-                    
-                    out += `<div class="row">`;
-                    if (!isN && !isS) {
-                        const speakerName = el.dataset.speaker || "";
-                        const avBox = el.querySelector('.avatar-box');
-                        const avSrc = avBox ? avBox.getAttribute('src') : "";
-                        const nameEl = el.querySelector('.char-name');
-                        const nameStyle = nameEl ? nameEl.getAttribute('style') : "";
-                        const isSpacer = el.querySelector('.avatar-placeholder') !== null;
-
-                        if (!isSpacer && speakerName) {
-                            if (avSrc) out += `<img src="${avSrc}" class="avatar">`;
-                            else out += `<div class="avatar"></div>`;
-                            out += `<div class="name-wrap"><span class="name" style="${nameStyle}">${speakerName} :</span></div>`;
-                        } else {
-                            out += `<div style="width:28px;flex-shrink:0"></div><div class="name-wrap"></div>`;
-                        }
-                        out += `<div class="msg">${block.innerHTML}</div>`;
-                    } else {
-                        out += `<div class="msg ${isN?'narrator':'system'}">${block.innerHTML}</div>`;
-                    }
-                    out += `</div>\n`;
-                });
+                const container = card.querySelector('.script-container');
+                if (container) out += buildBoxContent(container);
                 out += `</div>\n`;
             });
 
-            if (mode === 'embed') out += `</div>\n`;
+            if (mode === 'embed') {
+                out += `</div>\n`;
+            }
             return out;
         }
 
@@ -707,9 +1275,38 @@
         document.getElementById('btnDownload').addEventListener('click', triggerDownload);
         document.getElementById('btnCopy').addEventListener('click', triggerCopy);
 
+        const styler = document.getElementById('textStyler');
+        document.addEventListener('selectionchange', () => {
+            const sel = window.getSelection();
+            if (sel.isCollapsed || !sel.toString().trim()) { styler.style.display = 'none'; return; }
+            let node = sel.anchorNode;
+            while (node && node !== document.body) {
+                if (node.classList && node.classList.contains('notion-block')) {
+                    const range = sel.getRangeAt(0); const rect = range.getBoundingClientRect();
+                    styler.style.left = `${rect.left + window.scrollX}px`; styler.style.top = `${rect.top + window.scrollY - 45}px`;
+                    styler.style.display = 'flex'; return;
+                }
+                node = node.parentNode;
+            }
+            styler.style.display = 'none';
+        });
+
+        styler.addEventListener('mousedown', (e) => {
+            e.preventDefault(); const btn = e.target.closest('[data-cmd]'); if (!btn) return;
+            saveHistoryState(); const cmd = btn.getAttribute('data-cmd');
+            if (cmd.startsWith('hl-')) {
+                const colorClass = cmd; const sel = window.getSelection();
+                if (!sel.isCollapsed) {
+                    const range = sel.getRangeAt(0); const mark = document.createElement('mark');
+                    mark.className = colorClass; range.surroundContents(mark);
+                }
+            } else { document.execCommand(cmd, false, null); }
+        });
+
         document.getElementById('logSearchInput').addEventListener('input', (e) => {
             const k = e.target.value.trim().toLowerCase();
             document.querySelectorAll('.notion-row').forEach(row => {
+                if (row.querySelector('.state-system')) return;
                 const b = row.querySelector('.notion-block'); if(!b) return;
                 const match = !k || b.innerText.toLowerCase().includes(k);
                 if (match) row.classList.remove('filtered-out');
