@@ -149,7 +149,7 @@
         <div style="display: flex; gap: 10px; align-items: center;">
             <input type="number" id="quizAnswer" placeholder="정답 입력" style="flex: 1;">
             <button onclick="checkQuiz()" style="flex: 1;">정답 제출 및 풀이 보기</button>
-            <button onclick="generateQuiz()" style="background-color: #64748b;">다음 문제</button>
+            <button onclick="generateQuiz()" style="background-color: #64748b; flex: 0.8;">다음 문제 🔄</button>
         </div>
         
         <div class="result-box" id="result2">정답을 입력하고 버튼을 누르면 인풋 변수 값과 세세한 풀이 과정이 출력됩니다.</div>
@@ -193,7 +193,6 @@
             return result;
         }
 
-        // 팩토리얼 계산 함수 공식 시각화용
         function getFactorialString(num) {
             if (num === 0 || num === 1) return "1";
             let arr = [];
@@ -212,25 +211,25 @@
                 perms.map(p => `[${p.join(', ')}]`).join(' ');
         }
 
-        // --- 2단계 퀴즈 상세 해설 로직 (★ 업그레이드 핵심) ---
+        // --- 2단계 퀴즈 상세 해설 로직 (★ 화면 새로고침 없는 리셋 기능 추가) ---
         let qN = 0, qR = 0, currentAns = 0, currentCards = [];
 
         function generateQuiz() {
             const cardPool = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
-            // 3~7개의 카드를 무작위 설정 (완전 랜덤)
-            qN = Math.floor(Math.random() * 5) + 3; 
-            // 2개부터 qN개까지 무작위 선택
-            qR = Math.floor(Math.random() * (qN - 1)) + 2; 
+            qN = Math.floor(Math.random() * 5) + 3; // 3~7개 카드 무작위
+            qR = Math.floor(Math.random() * (qN - 1)) + 2; // 2~qN개 선택 무작위
             
             currentCards = cardPool.slice(0, qN);
             currentAns = getPermutations(currentCards, qR).length;
             
+            // 1. 문제 텍스트 업데이트
             document.getElementById('quizBox').innerHTML = 
                 `📢 임의의 카드 뭉치: [ ${currentCards.join(', ')} ]<br>` +
                 `👉 이 중에서 <span style="color:var(--primary); font-size:20px;">${qR}장</span>을 골라 순서를 고려하여 나열하는 가짓수(<sub>${qN}</sub>P<sub>${qR}</sub>)를 구하세요.`;
             
-            document.getElementById('quizAnswer').value = '';
-            document.getElementById('result2').innerHTML = "정답을 계산한 뒤 '정답 제출 및 풀이 보기'를 클릭하세요.";
+            // 2. ★ 핵심: 새로고침 없이 입력창과 이전 풀이창을 깨끗하게 비워줌
+            document.getElementById('quizAnswer').value = ''; 
+            document.getElementById('result2').innerHTML = "새로운 문제가 생성되었습니다! 정답을 입력하고 버튼을 누르세요.";
         }
 
         function checkQuiz() {
@@ -240,7 +239,6 @@
             const userAns = parseInt(userAnsStr);
             let isCorrect = (userAns === currentAns);
             
-            // 수학 공식을 텍스트로 풀어내는 계산 과정 빌드
             let stepText = [];
             let currentVal = qN;
             for(let i = 0; i < qR; i++) {
@@ -249,7 +247,6 @@
             }
             const multiplicationProcess = stepText.join(' × ');
 
-            // HTML 출력 데이터 조립
             let resultHTML = "";
             if(isCorrect) {
                 resultHTML += `<h3 style="color: #16a34a; margin-top:0;">🎉 정답입니다!</h3>`;
